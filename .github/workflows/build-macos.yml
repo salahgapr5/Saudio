@@ -28,7 +28,7 @@ jobs:
           rm -rf build-app
           rm -rf .build
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
-            rm -rf ~/Library/Caches/org.swift.swiftpm
+          rm -rf ~/Library/Caches/org.swift.swiftpm
 
       - name: Resolve Swift packages
         run: |
@@ -45,6 +45,8 @@ jobs:
             -configuration Debug \
             -destination 'platform=macOS' \
             -derivedDataPath build-app \
+            -skipMacroValidation \
+            -skipPackagePluginValidation \
             CODE_SIGN_IDENTITY=-
 
       - name: Package app
