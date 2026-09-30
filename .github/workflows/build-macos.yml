@@ -55,9 +55,11 @@ jobs:
           ditto \
             build-app/Build/Products/Debug/GloamVoiceStudio.app \
             artifacts/Saudio.app
+          cd artifacts
+          ditto -c -k --keepParent Saudio.app Saudio.zip
 
       - name: Upload app
         uses: actions/upload-artifact@v4
         with:
           name: Saudio-macOS
-          path: artifacts/Saudio.app
+          path: artifacts/Saudio.zip
