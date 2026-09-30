@@ -42,7 +42,7 @@ jobs:
           xcodebuild \
             -project GloamVoiceStudio.xcodeproj \
             -scheme GloamVoiceStudio \
-            -configuration Debug \
+            -configuration Release \
             -destination 'platform=macOS' \
             -derivedDataPath build-app \
             -skipMacroValidation \
@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir -p artifacts
           ditto \
-            build-app/Build/Products/Debug/GloamVoiceStudio.app \
+            build-app/Build/Products/Release/GloamVoiceStudio.app \
             artifacts/Saudio.app
           cd artifacts
           ditto -c -k --keepParent Saudio.app Saudio.zip
