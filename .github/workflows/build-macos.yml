@@ -23,6 +23,19 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
+      - name: Clean SwiftPM state
+        run: |
+          rm -rf build-app
+          rm -rf .build
+          rm -rf ~/Library/Developer/Xcode/DerivedData/*
+
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild \
+            -resolvePackageDependencies \
+            -project GloamVoiceStudio.xcodeproj \
+            -scheme GloamVoiceStudio
+
       - name: Build Saudio
         run: |
           xcodebuild \
