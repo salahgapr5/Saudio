@@ -1,0 +1,47 @@
+name: Build Saudio
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build Saudio
+        run: |
+          xcodebuild \
+            -project GloamVoiceStudio.xcodeproj \
+            -scheme GloamVoiceStudio \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            -derivedDataPath build-app \
+            CODE_SIGN_IDENTITY=-
+
+      - name: Package app
+        run: |
+          mkdir -p artifacts
+          ditto \
+            build-app/Build/Products/Debug/GloamVoiceStudio.app \
+            artifacts/Saudio.app
+
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Saudio-macOS
+          path: artifacts/Saudio.app
